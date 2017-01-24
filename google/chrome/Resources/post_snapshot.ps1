@@ -27,6 +27,12 @@ Set-FileSystemIsolation $xappl "@APPDATACOMMON@\Microsoft" $FullIsolation
 Set-FileSystemIsolation $xappl "@APPDATALOCAL@\Google" $FullIsolation
 Set-FileSystemIsolation $xappl "@PROGRAMFILESX86@\Google" $FullIsolation
 
+
+# Enable sync for the profile, while disable sync for the caches
+Set-FileSystemSync $xappl "@APPDATALOCAL@\Google" "False"
+Set-FileSystemSync $xappl "@APPDATALOCAL@\Google\Chrome\User Data\Default\Cache" "True"
+Set-FileSystemSync $xappl "@APPDATALOCAL@\Google\Chrome\User Data\ShaderCache" "True"
+
 Remove-FileSystemDirectoryItems $xappl "@SYSDRIVE@"
 
 Set-RegistryIsolation $xappl "@HKCU@\Software\Google" $FullIsolation

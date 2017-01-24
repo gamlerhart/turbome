@@ -104,6 +104,15 @@ function Set-FileSystemIsolation($xappl, $path, $isolationMode)
     $xappl.SelectNodes($xpath) | ForEach-Object { $_.isolation = $isolationMode }
 }
 
+function Set-FileSystemSync($xappl, $path, $syncMode)
+{
+    $xpath = Get-FileSystemXPath($path)+'//Directory'
+    # Consistant with turbo script, synching enables/disables for all children
+    $allSubDirsPath = $xpath+'//Directory'
+    $nodes = $xappl.SelectNodes($allSubDirsPath)
+    $nodes | ForEach-Object { $_.noSync = $syncMode }
+}
+
 function Set-RegistryIsolation($xappl, $path, $isolationMode)
 {
     $xpath = Get-RegistryXPath($path)
@@ -720,6 +729,7 @@ Export-ModuleMember -Function 'Set-EnvironmentVariable'
 Export-ModuleMember -Function 'Set-FileSystemIsolation'
 Export-ModuleMember -Function 'Set-RegistryIsolation'
 Export-ModuleMember -Function 'Set-RegistryValue'
+Export-ModuleMember -Function 'Set-FileSystemSync'
 
 Export-ModuleMember -Variable FullIsolation
 Export-ModuleMember -Variable MergeIsolation
